@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/AGS_LOGO.jpg</file>
+    </qresource>
+</RCC>
