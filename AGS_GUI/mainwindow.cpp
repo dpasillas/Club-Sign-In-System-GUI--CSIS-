@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /*/Connections for reading a PCC ID/*/
     connect(ui->pcc_id_line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
     connect(ui->pcc_id_line,SIGNAL(returnPressed()),this,SLOT(lookupPCC_ID()));
+    connect(ui->ags_id_line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
     connect(ui->ags_id_line,SIGNAL(returnPressed()),this,SLOT(lookupAGS_ID()));
     connect(val,SIGNAL(doneProcessing(QString)),this,SLOT(lookupPCC_ID(QString)));
     /*/ END PCC ID /*/

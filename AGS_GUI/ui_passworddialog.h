@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'passworddialog.ui'
 **
-** Created: Sat Mar 3 23:53:40 2012
+** Created: Sun Mar 4 00:49:06 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -101,6 +101,7 @@ public:
 
         password_line = new QLineEdit(groupBox);
         password_line->setObjectName(QString::fromUtf8("password_line"));
+        password_line->setEchoMode(QLineEdit::Password);
 
         gridLayout_2->addWidget(password_line, 1, 1, 1, 2);
 
@@ -137,6 +138,7 @@ public:
 
         np_line = new QLineEdit(groupBox);
         np_line->setObjectName(QString::fromUtf8("np_line"));
+        np_line->setEchoMode(QLineEdit::Password);
 
         gridLayout_2->addWidget(np_line, 6, 1, 1, 2);
 
@@ -147,6 +149,7 @@ public:
 
         verify_np_line = new QLineEdit(groupBox);
         verify_np_line->setObjectName(QString::fromUtf8("verify_np_line"));
+        verify_np_line->setEchoMode(QLineEdit::Password);
 
         gridLayout_2->addWidget(verify_np_line, 7, 1, 1, 2);
 
@@ -182,6 +185,13 @@ public:
         np_label->setBuddy(np_line);
         verify_np_label->setBuddy(verify_np_line);
 #endif // QT_NO_SHORTCUT
+        QWidget::setTabOrder(username_line, password_line);
+        QWidget::setTabOrder(password_line, validate_button);
+        QWidget::setTabOrder(validate_button, nu_line);
+        QWidget::setTabOrder(nu_line, np_line);
+        QWidget::setTabOrder(np_line, verify_np_line);
+        QWidget::setTabOrder(verify_np_line, ok_button);
+        QWidget::setTabOrder(ok_button, cancel_button);
 
         retranslateUi(PasswordDialog);
         QObject::connect(ok_button, SIGNAL(clicked()), PasswordDialog, SLOT(accept()));

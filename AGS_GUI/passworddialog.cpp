@@ -18,6 +18,9 @@ PasswordDialog::PasswordDialog(QWidget *parent) :
     connect(ui->password_line,SIGNAL(returnPressed()),ui->validate_button,SIGNAL(clicked()));
     connect(ui->validate_button,SIGNAL(clicked()),this,SLOT(validate()));
 
+    connect(ui->nu_line,SIGNAL(returnPressed()),ui->ok_button,SIGNAL(clicked()));
+    connect(ui->np_line,SIGNAL(returnPressed()),ui->ok_button,SIGNAL(clicked()));
+    connect(ui->verify_np_line,SIGNAL(returnPressed()),ui->ok_button,SIGNAL(clicked()));
     init();
 
 }
@@ -40,6 +43,7 @@ void PasswordDialog::accept()
 
 void PasswordDialog::reject()
 {
+    qDebug() << sender();
     MethodRunner<PasswordDialog, void> runner(this,&PasswordDialog::rInit);
 }
 
@@ -53,21 +57,26 @@ void PasswordDialog::init()
     const bool b = true;
     ui->username_label->setDisabled(!b);
     ui->username_line->setDisabled(!b);
+    ui->username_line->setText("");
 
     ui->password_label->setDisabled(!b);
     ui->password_line->setDisabled(!b);
+    ui->password_line->setText("");
 
     //ui->validate_button->setDisabled(!b);
 
 
     ui->nu_label->setDisabled(b);
     ui->nu_line->setDisabled(b);
+    ui->nu_line->setText("");
 
     ui->np_label->setDisabled(b);
     ui->np_line->setDisabled(b);
+    ui->np_line->setText("");
 
     ui->verify_np_label->setDisabled(b);
     ui->verify_np_line->setDisabled(b);
+    ui->verify_np_line->setText("");
 
     ui->ok_button->setDisabled(b);
 }
