@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -41,7 +41,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="host_line"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_2">
@@ -51,7 +51,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_2"/>
+           <widget class="QLineEdit" name="user_line"/>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
@@ -61,7 +61,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEdit_3">
+           <widget class="QLineEdit" name="password_line">
             <property name="echoMode">
              <enum>QLineEdit::Password</enum>
             </property>
@@ -75,17 +75,17 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QLineEdit" name="lineEdit_5"/>
+           <widget class="QLineEdit" name="database_line"/>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>Port #:</string>
+             <string>Port:</string>
             </property>
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QLineEdit" name="lineEdit_4"/>
+           <widget class="QLineEdit" name="port_line"/>
           </item>
          </layout>
         </widget>
@@ -103,6 +103,9 @@
           <string>AGS Settings</string>
          </property>
          <layout class="QFormLayout" name="formLayout_2">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
@@ -110,12 +113,8 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Event ID:</string>
-            </property>
-           </widget>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="semester_line"/>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_8">
@@ -124,6 +123,9 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="hours_per_person_line"/>
+          </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_9">
             <property name="text">
@@ -131,17 +133,8 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_6"/>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_7"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEdit_8"/>
-          </item>
           <item row="3" column="1">
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="tshirt_box">
             <property name="text">
              <string>Check to Enable</string>
             </property>
@@ -154,6 +147,9 @@
             </property>
            </widget>
           </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="shift_line"/>
+          </item>
           <item row="5" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
@@ -161,11 +157,18 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="lineEdit_9"/>
-          </item>
           <item row="5" column="1">
-           <widget class="QLineEdit" name="lineEdit_10"/>
+           <widget class="QLineEdit" name="submitted_by_line"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="event_line"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Event ID:</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

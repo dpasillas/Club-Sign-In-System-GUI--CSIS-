@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 TARGET = AGS_GUI
 TEMPLATE = app
@@ -13,16 +13,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     optionsdialog.cpp \
-    readerthread.cpp \
-    id_validator.cpp
+    id_validator.cpp \
+    passworddialog.cpp
 
 HEADERS  += mainwindow.h \
     optionsdialog.h \
-    readerthread.h \
-    id_validator.h
+    id_validator.h \
+    passworddialog.h \
+    methodrunner.h
 
 FORMS    += mainwindow.ui \
-    optionsdialog.ui
+    optionsdialog.ui \
+    passworddialog.ui
 
 RESOURCES += \
     resources.qrc

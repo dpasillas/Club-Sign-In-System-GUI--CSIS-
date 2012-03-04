@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\optionsdialog.o
+./release\id_validator.o
+./release\passworddialog.o
+./release\moc_mainwindow.o
+./release\moc_optionsdialog.o
+./release\moc_id_validator.o
+./release\moc_passworddialog.o
+./release\qrc_resources.o
+);

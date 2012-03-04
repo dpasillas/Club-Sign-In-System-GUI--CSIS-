@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\optionsdialog.o
+./debug\id_validator.o
+./debug\passworddialog.o
+./debug\moc_mainwindow.o
+./debug\moc_optionsdialog.o
+./debug\moc_id_validator.o
+./debug\moc_passworddialog.o
+./debug\qrc_resources.o
+);
