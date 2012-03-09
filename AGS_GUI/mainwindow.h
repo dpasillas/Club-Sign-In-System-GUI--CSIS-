@@ -37,6 +37,7 @@ public:
 public slots:
     void newFile();
     void openFile();
+    void exportFile();
     void loadFile(QString s);
     void openRecentFile();
     void showOptions();
@@ -51,6 +52,8 @@ public slots:
     void showError(QString s);
     void login();
     void logout();
+    void about();
+    void tutorial();
 
 
 protected:

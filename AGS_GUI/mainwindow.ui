@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Sign-In System</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/images/icon</normaloff>:/images/icon</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">#centralWidget, #login_page, #log_page, #unopen_page{
@@ -415,7 +419,7 @@ QWidget#frame_2 *, #login_page *, #unopen_page *{
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="resources.qrc">:/images/images/AGS_LOGO.jpg</pixmap>
+                  <pixmap resource="resources.qrc">:/images/logo</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -644,6 +648,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionExport_log_to"/>
+    <addaction name="actionLogout"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuTools">
@@ -745,6 +750,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionChange_Username_Password">
    <property name="text">
     <string>Change Username/Password...</string>
+   </property>
+  </action>
+  <action name="actionLogout">
+   <property name="text">
+    <string>Logout</string>
    </property>
   </action>
  </widget>

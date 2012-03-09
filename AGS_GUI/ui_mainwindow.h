@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Mar 4 00:09:16 2012
+** Created: Wed Mar 7 19:15:05 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -51,6 +51,7 @@ public:
     QAction *actionNew;
     QAction *actionOpen;
     QAction *actionChange_Username_Password;
+    QAction *actionLogout;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QStackedWidget *stackedWidget;
@@ -121,6 +122,9 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(723, 581);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/icon"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         MainWindow->setStyleSheet(QString::fromUtf8("#centralWidget, #login_page, #log_page, #unopen_page{\n"
 "	background-color: rgb(171,32,25);}\n"
 "QFrame#frame_2 QLabel, #login_page QLabel, #unopen_page QLabel{\n"
@@ -176,6 +180,8 @@ public:
         actionOpen->setObjectName(QString::fromUtf8("actionOpen"));
         actionChange_Username_Password = new QAction(MainWindow);
         actionChange_Username_Password->setObjectName(QString::fromUtf8("actionChange_Username_Password"));
+        actionLogout = new QAction(MainWindow);
+        actionLogout->setObjectName(QString::fromUtf8("actionLogout"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         centralWidget->setStyleSheet(QString::fromUtf8(""));
@@ -362,7 +368,7 @@ public:
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         label_6 = new QLabel(widget);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setPixmap(QPixmap(QString::fromUtf8(":/images/images/AGS_LOGO.jpg")));
+        label_6->setPixmap(QPixmap(QString::fromUtf8(":/images/logo")));
         label_6->setAlignment(Qt::AlignCenter);
 
         gridLayout_2->addWidget(label_6, 0, 2, 1, 1);
@@ -485,6 +491,7 @@ public:
         menuFile->addAction(actionNew);
         menuFile->addAction(actionOpen);
         menuFile->addAction(actionExport_log_to);
+        menuFile->addAction(actionLogout);
         menuFile->addAction(actionExit);
         menuTools->addAction(actionOptions);
         menuTools->addAction(menuChange_Event->menuAction());
@@ -508,7 +515,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Sign-In System", 0, QApplication::UnicodeUTF8));
         actionExport_log_to->setText(QApplication::translate("MainWindow", "Export log to...", 0, QApplication::UnicodeUTF8));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
         actionOptions->setText(QApplication::translate("MainWindow", "Options", 0, QApplication::UnicodeUTF8));
@@ -523,6 +530,7 @@ public:
         actionNew->setText(QApplication::translate("MainWindow", "&New...", 0, QApplication::UnicodeUTF8));
         actionOpen->setText(QApplication::translate("MainWindow", "&Open...", 0, QApplication::UnicodeUTF8));
         actionChange_Username_Password->setText(QApplication::translate("MainWindow", "Change Username/Password...", 0, QApplication::UnicodeUTF8));
+        actionLogout->setText(QApplication::translate("MainWindow", "Logout", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("MainWindow", "Username:", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("MainWindow", "Password:", 0, QApplication::UnicodeUTF8));
         login_button->setText(QApplication::translate("MainWindow", "Login", 0, QApplication::UnicodeUTF8));

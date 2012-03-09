@@ -1,6 +1,7 @@
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 #include "mainwindow.h"
+#include <QDebug>
 
 OptionsDialog::OptionsDialog(QWidget *parent) :
     QDialog(parent),
@@ -29,6 +30,11 @@ void OptionsDialog::accept()
     /*/            this is the easiest way to get a necessary value            /*/
     /*/ You may also check to see if the value changed with valueChanged[enum] /*/
     //[!]
+    for(int i = 0; i < SIZE; i++)
+    {
+        if(valueChanged[i])
+            qDebug() << i;
+    }
 
     QDialog::accept(); //DO NOT MODIFY
 }
@@ -79,7 +85,7 @@ void OptionsDialog::getDefaults()
     valueChanged[HRS_PER_PERSON] = false;
 
     //set T-shirt calc
-    defaults[TSHIRT_CALC] = "";
+    defaults[TSHIRT_CALC] = "FALSE";
     valueChanged[TSHIRT_CALC] = false;
 
     //set shift ID
@@ -94,38 +100,38 @@ void OptionsDialog::getDefaults()
 
 void OptionsDialog::updateDefaults()
 {
-    valueChanged[HOST] = defaults[HOST] == ui->host_line->text();
+    valueChanged[HOST] = defaults[HOST] != ui->host_line->text();
     defaults[HOST] = ui->host_line->text();
 
-    valueChanged[USER] = defaults[USER] == ui->user_line->text();
+    valueChanged[USER] = defaults[USER] != ui->user_line->text();
     defaults[USER] = ui->user_line->text();
 
-    valueChanged[PASS] = defaults[PASS] == ui->password_line->text();
+    valueChanged[PASS] = defaults[PASS] != ui->password_line->text();
     defaults[PASS] = ui->password_line->text();
 
-    valueChanged[DATABASE] = defaults[DATABASE] == ui->database_line->text();
+    valueChanged[DATABASE] = defaults[DATABASE] != ui->database_line->text();
     defaults[DATABASE] = ui->database_line->text();
 
-    valueChanged[PORT] = defaults[PORT] == ui->port_line->text();
+    valueChanged[PORT] = defaults[PORT] != ui->port_line->text();
     defaults[PORT] = ui->port_line->text();
     /*------------------------------*/
 
-    valueChanged[SEMESTER] = defaults[SEMESTER] == ui->semester_line->text();
+    valueChanged[SEMESTER] = defaults[SEMESTER] != ui->semester_line->text();
     defaults[SEMESTER] = ui->semester_line->text();
 
-    valueChanged[EVENT] = defaults[EVENT] == ui->event_line->text();
+    valueChanged[EVENT] = defaults[EVENT] != ui->event_line->text();
     defaults[EVENT] = ui->event_line->text();
 
-    valueChanged[HRS_PER_PERSON] = defaults[HRS_PER_PERSON] == ui->hours_per_person_line->text();
+    valueChanged[HRS_PER_PERSON] = defaults[HRS_PER_PERSON] != ui->hours_per_person_line->text();
     defaults[HRS_PER_PERSON] = ui->hours_per_person_line->text();
 
-    valueChanged[TSHIRT_CALC] = defaults[TSHIRT_CALC] == ((ui->tshirt_box->isChecked())?"TRUE":"FALSE");
+    valueChanged[TSHIRT_CALC] = defaults[TSHIRT_CALC] != ((ui->tshirt_box->isChecked())?"TRUE":"FALSE");
     defaults[TSHIRT_CALC] = (ui->tshirt_box->isChecked())?"TRUE":"FALSE";
 
-    valueChanged[SHIFT] = defaults[SHIFT] == ui->shift_line->text();
+    valueChanged[SHIFT] = defaults[SHIFT] != ui->shift_line->text();
     defaults[SHIFT] = ui->shift_line->text();
 
-    valueChanged[SUBMITTED_BY] = defaults[SUBMITTED_BY] == ui->submitted_by_line->text();
+    valueChanged[SUBMITTED_BY] = defaults[SUBMITTED_BY] != ui->submitted_by_line->text();
     defaults[SUBMITTED_BY] = ui->submitted_by_line->text();
 }
 

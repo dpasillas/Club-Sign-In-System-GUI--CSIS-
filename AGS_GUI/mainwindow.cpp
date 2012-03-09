@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QSettings>
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -68,19 +70,25 @@ MainWindow::MainWindow(QWidget *parent) :
     /*/ Connections for menubar /*/
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
+    connect(ui->actionExport_log_to,SIGNAL(triggered()),this,SLOT(exportFile()));
+    connect(ui->actionLogout,SIGNAL(triggered()),this,SLOT(logout()));
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
+    connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
+    connect(ui->actionView_Tutorial,SIGNAL(triggered()),this,SLOT(tutorial()));
     /*/ END menubar /*/
 
     /*/ Recent Files /*/
-    ui->menuFile->insertSeparator(ui->actionExit);
+    ui->menuFile->insertSeparator(ui->actionLogout);
     for (int i = 0; i < MaxRecentFiles; ++i) {
         recentFileActs[i] = new QAction(this);
         recentFileActs[i]->setVisible(false);
         connect(recentFileActs[i], SIGNAL(triggered()),
                 this, SLOT(openRecentFile()));
-        ui->menuFile->insertAction(ui->actionExit,recentFileActs[i]);
+        ui->menuFile->insertAction(ui->actionLogout,recentFileActs[i]);
     }
-    separatorAct = ui->menuFile->insertSeparator(ui->actionExit);
+    separatorAct = ui->menuFile->insertSeparator(ui->actionLogout);
+
+    //ui->actionLogout->setVisible(false);
     /*/ END Recent Files /*/
     //connect(&[LoggerClass],SIGNAL(append(QString)),ui->textEdit,SLOT(append(QString))); [!]
 
@@ -147,7 +155,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
 bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
-    static int i = 0;
+    //static int i = 0;
     if(o == ui->pcc_id_line)
     {
         if(e->type() == QEvent::KeyPress)
@@ -207,13 +215,13 @@ void MainWindow::lookupPCC_ID(QString s)
     //if([successful lookup])[!]
         ui->pcc_id_line->setText(s);
         ui->pcc_id_line->setReadOnly(true);
-        ui->ags_id_line->setText(QString::number(1415));//[1}
+        ui->ags_id_line->setText(QString::number(8910));//[1}
         ui->ags_id_line->setReadOnly(true);
         if(readTimer != 0)
             killTimer(readTimer);
         readTimer = startTimer(DISPLAY_MILS);
         ui->first_name_line->setText("John");//[!]
-        ui->last_name_line->setText("Castillo");//[!]
+        ui->last_name_line->setText("Doe");//[!]
 
         loadFile(curFile);
 
@@ -405,6 +413,7 @@ void MainWindow::newFile()
 
 void MainWindow::openFile()
 {
+    fDialog->setWindowTitle("Open");
     fDialog->setFileMode(QFileDialog::ExistingFile);
     fDialog->setNameFilter("Log Files (*.dat)");
     fDialog->setOption(QFileDialog::DontUseNativeDialog,false);
@@ -446,8 +455,25 @@ void MainWindow::loadFile(QString s)
 
 }
 
+void MainWindow::exportFile()
+{
+    qDebug("Exporting...");
+    fDialog->setWindowTitle("Export");
+    fDialog->setFileMode(QFileDialog::AnyFile);
+    fDialog->setNameFilter("Comma Delimited Format(*.csv)");
+    fDialog->setViewMode(QFileDialog::List);
+    //QFileDialog::getOpenFileName(this);
+    if(fDialog->exec())
+    {
+        QString name = fDialog->selectedFiles().at(0);
+        //[!]
+    }
+
+}
+
 void MainWindow::showMain()
 {
+    ui->actionLogout->setVisible(true);
     ui->stackedWidget->setCurrentIndex(1);
     if(loginTimer != 0)
         killTimer(loginTimer);
@@ -545,4 +571,14 @@ void MainWindow::updateUsername(QString username)
 void MainWindow::updatePassword(QString password)
 {
     //[!]
+}
+
+void MainWindow::about()
+{
+    QMessageBox::about(this,"About", "This is a line of text"); //[!]
+}
+
+void MainWindow::tutorial()
+{
+    QDesktopServices::openUrl(QUrl("http://www.google.com"));
 }
