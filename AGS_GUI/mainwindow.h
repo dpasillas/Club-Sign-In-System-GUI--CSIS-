@@ -54,6 +54,7 @@ public slots:
     void logout();
     void about();
     void tutorial();
+    void reportABug();
 
 
 protected:

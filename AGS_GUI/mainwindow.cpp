@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
     connect(ui->actionView_Tutorial,SIGNAL(triggered()),this,SLOT(tutorial()));
+    connect(ui->actionReport_a_problem,SIGNAL(triggered()),this,SLOT(reportABug()));
     /*/ END menubar /*/
 
     /*/ Recent Files /*/
@@ -581,4 +582,15 @@ void MainWindow::about()
 void MainWindow::tutorial()
 {
     QDesktopServices::openUrl(QUrl("http://www.google.com"));
+}
+
+void MainWindow::reportABug()
+{
+    //[!] Just change the string, and use <br> for line breaks
+    static QString s("To report a problem,<br>"
+                     "please visit this link: <a href = \"http://www.google.com\">http://www.google.com</a>"
+                     "<hr>"
+                     "You may also visit our website here: <a href = \"http://www.google.com\">http://www.google.com</a>");
+
+        QMessageBox::about(this,"Report a Problem",s);
 }

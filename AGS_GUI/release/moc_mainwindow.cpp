@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Thu Mar 8 16:22:59 2012
+** Created: Sat Mar 10 18:45:31 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      20,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -50,6 +50,7 @@ static const uint qt_meta_data_MainWindow[] = {
      267,   11,   11,   11, 0x0a,
      276,   11,   11,   11, 0x0a,
      284,   11,   11,   11, 0x0a,
+     295,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -62,7 +63,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "lookupPCC_ID(QString)\0setEventType(QString)\0"
     "i\0setEventID(int)\0s,i\0setEventTypeID(QString,int)\0"
     "boo()\0showError(QString)\0login()\0"
-    "logout()\0about()\0tutorial()\0"
+    "logout()\0about()\0tutorial()\0reportABug()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -113,9 +114,10 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 16: logout(); break;
         case 17: about(); break;
         case 18: tutorial(); break;
+        case 19: reportABug(); break;
         default: ;
         }
-        _id -= 19;
+        _id -= 20;
     }
     return _id;
 }

@@ -2,7 +2,7 @@
 #include "ui_passworddialog.h"
 
 #include "mainwindow.h"
-#include "methodrunner.h"
+//#include "methodrunner.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -33,18 +33,20 @@ PasswordDialog::~PasswordDialog()
 void PasswordDialog::accept()
 {
     qDebug() << sender();
-    MethodRunner<PasswordDialog, void> runner(this,&PasswordDialog::aInit);
+    //MethodRunner<PasswordDialog, void> runner(this,&PasswordDialog::aInit);
 
-    if(mwp()->validate(ui->username_line->text(),ui->password_line->text()))
+    /*if(mwp()->validate(ui->username_line->text(),ui->password_line->text()))
     {
 
-    }
+    }*/
+    aInit();
 }
 
 void PasswordDialog::reject()
 {
     qDebug() << sender();
-    MethodRunner<PasswordDialog, void> runner(this,&PasswordDialog::rInit);
+    //MethodRunner<PasswordDialog, void> runner(this,&PasswordDialog::rInit);
+    rInit();
 }
 
 MainWindow* PasswordDialog::mwp()
