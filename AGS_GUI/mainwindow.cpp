@@ -419,6 +419,7 @@ void MainWindow::openFile()
     fDialog->setNameFilter("Log Files (*.dat)");
     fDialog->setOption(QFileDialog::DontUseNativeDialog,false);
     fDialog->setViewMode(QFileDialog::List);
+    fDialog->setAcceptMode(QFileDialog::AcceptOpen);
     //QFileDialog::getOpenFileName(this);
     if(fDialog->exec())
     {
@@ -463,6 +464,7 @@ void MainWindow::exportFile()
     fDialog->setFileMode(QFileDialog::AnyFile);
     fDialog->setNameFilter("Comma Delimited Format(*.csv)");
     fDialog->setViewMode(QFileDialog::List);
+    fDialog->setAcceptMode(QFileDialog::AcceptSave);
     //QFileDialog::getOpenFileName(this);
     if(fDialog->exec())
     {
