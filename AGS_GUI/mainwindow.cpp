@@ -23,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     firstLogin = true;
 
+    csWidget = new QWidget(this);
+    csWidget->setWindowIcon(QIcon(":/images/cs_icon"));
+    csWidget->setVisible(false);
+
     //PasswordDialog pd;
     //pd.exec();
 
@@ -347,6 +351,16 @@ void MainWindow::logout()
         }
     }
 
+    //the about dialog is now a child of csWidget
+    //so it must be rejected here
+    foreach(QObject *o, csWidget->children())
+    {
+        if(QDialog *d = qobject_cast<QDialog*>(o))
+        {
+            d->reject();
+        }
+    }
+
     if(dialog->isVisible())
         dialog->close();
 
@@ -578,7 +592,7 @@ void MainWindow::updatePassword(QString password)
 
 void MainWindow::about()
 {
-    QMessageBox::about(this,"About", "This is a line of text"); //[!]
+    QMessageBox::about(csWidget,"About", "This is a line of text"); //[!]
 }
 
 void MainWindow::tutorial()

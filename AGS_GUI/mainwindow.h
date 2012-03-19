@@ -80,6 +80,8 @@ private:
     enum { MaxRecentFiles = 10 };
     QAction *recentFileActs[MaxRecentFiles];
     QAction *separatorAct;
+
+    QWidget *csWidget;
 };
 
 #endif // MAINWINDOW_H

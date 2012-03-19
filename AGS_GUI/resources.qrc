@@ -2,5 +2,6 @@
     <qresource prefix="/images">
         <file alias="logo">images/AGS_LOGO.jpg</file>
         <file alias="icon">images/AGS_ICON.png</file>
+        <file alias="cs_icon">images/csis.ico</file>
     </qresource>
 </RCC>
