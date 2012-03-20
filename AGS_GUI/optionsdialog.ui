@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -117,57 +117,128 @@
            <widget class="QLineEdit" name="semester_line"/>
           </item>
           <item row="2" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Event ID:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="event_id_line"/>
+          </item>
+          <item row="3" column="0">
            <widget class="QLabel" name="label_8">
             <property name="text">
              <string>Event Hours Per Person:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QLineEdit" name="hours_per_person_line"/>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>AGS T-Shirt Calculator:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QCheckBox" name="tshirt_box">
-            <property name="text">
-             <string>Check to Enable</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>T-Shirt Multiplier:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QDoubleSpinBox" name="multiplier_box">
+              <property name="minimum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>5.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="tshirt_box">
+              <property name="text">
+               <string>Check to Enable</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="0">
            <widget class="QLabel" name="label_10">
             <property name="text">
              <string>Shift ID:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="5" column="1">
            <widget class="QLineEdit" name="shift_line"/>
           </item>
-          <item row="5" column="0">
+          <item row="6" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
              <string>Submitted_by ID:</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
+          <item row="6" column="1">
            <widget class="QLineEdit" name="submitted_by_line"/>
           </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="event_line"/>
-          </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>Event ID:</string>
+             <string>Event Type:</string>
             </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="event_type_box">
+            <item>
+             <property name="text">
+              <string/>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>AGS</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CS</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Meeting</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Social</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Other</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -198,12 +269,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>199</x>
+     <y>279</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>199</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
@@ -214,12 +285,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>199</x>
+     <y>279</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>199</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>

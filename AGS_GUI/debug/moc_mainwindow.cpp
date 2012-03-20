@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sun Mar 4 00:35:13 2012
+** Created: Tue Mar 20 04:00:58 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,42 +23,53 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      22,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      20,   12,   11,   11, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x0a,
-      22,   11,   11,   11, 0x0a,
-      35,   33,   11,   11, 0x0a,
-      53,   11,   11,   11, 0x0a,
-      70,   11,   11,   11, 0x0a,
-      84,   11,   11,   11, 0x0a,
-      97,   11,   11,   11, 0x0a,
-     112,   11,   11,   11, 0x0a,
-     127,   33,   11,   11, 0x0a,
-     149,   33,   11,   11, 0x0a,
-     173,  171,   11,   11, 0x0a,
-     193,  189,   11,   11, 0x0a,
-     221,   11,   11,   11, 0x0a,
-     227,   33,   11,   11, 0x0a,
-     246,   11,   11,   11, 0x0a,
-     254,   11,   11,   11, 0x0a,
+      51,   11,   11,   11, 0x0a,
+      61,   11,   11,   11, 0x0a,
+      72,   11,   11,   11, 0x0a,
+      87,   85,   11,   11, 0x0a,
+     105,   11,   11,   11, 0x0a,
+     122,   11,   11,   11, 0x0a,
+     136,   11,   11,   11, 0x0a,
+     149,   11,   11,   11, 0x0a,
+     164,   11,   11,   11, 0x0a,
+     179,   85,   11,   11, 0x0a,
+     201,   85,   11,   11, 0x0a,
+     225,  223,   11,   11, 0x0a,
+     245,  241,   11,   11, 0x0a,
+     280,  273,   11,   11, 0x0a,
+     307,   11,   11,   11, 0x0a,
+     313,   85,   11,   11, 0x0a,
+     332,   11,   11,   11, 0x0a,
+     340,   11,   11,   11, 0x0a,
+     349,   11,   11,   11, 0x0a,
+     357,   11,   11,   11, 0x0a,
+     368,   11,   11,   11, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0newFile()\0openFile()\0s\0"
+    "MainWindow\0\0type,id\0eventChanged(AGSEventType,int)\0"
+    "newFile()\0openFile()\0exportFile()\0s\0"
     "loadFile(QString)\0openRecentFile()\0"
     "showOptions()\0updateTime()\0lookupAGS_ID()\0"
     "lookupPCC_ID()\0lookupPCC_ID(QString)\0"
     "setEventType(QString)\0i\0setEventID(int)\0"
-    "s,i\0setEventTypeID(QString,int)\0boo()\0"
+    "s,i\0setEventTypeID(QString,int)\0type,i\0"
+    "setEvent(AGSEventType,int)\0boo()\0"
     "showError(QString)\0login()\0logout()\0"
+    "about()\0tutorial()\0reportABug()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -90,26 +101,39 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: newFile(); break;
-        case 1: openFile(); break;
-        case 2: loadFile((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 3: openRecentFile(); break;
-        case 4: showOptions(); break;
-        case 5: updateTime(); break;
-        case 6: lookupAGS_ID(); break;
-        case 7: lookupPCC_ID(); break;
-        case 8: lookupPCC_ID((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 9: setEventType((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 10: setEventID((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 11: setEventTypeID((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 12: boo(); break;
-        case 13: showError((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 14: login(); break;
-        case 15: logout(); break;
+        case 0: eventChanged((*reinterpret_cast< AGSEventType(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 1: newFile(); break;
+        case 2: openFile(); break;
+        case 3: exportFile(); break;
+        case 4: loadFile((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 5: openRecentFile(); break;
+        case 6: showOptions(); break;
+        case 7: updateTime(); break;
+        case 8: lookupAGS_ID(); break;
+        case 9: lookupPCC_ID(); break;
+        case 10: lookupPCC_ID((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 11: setEventType((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 12: setEventID((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: setEventTypeID((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 14: setEvent((*reinterpret_cast< AGSEventType(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 15: boo(); break;
+        case 16: showError((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 17: login(); break;
+        case 18: logout(); break;
+        case 19: about(); break;
+        case 20: tutorial(); break;
+        case 21: reportABug(); break;
         default: ;
         }
-        _id -= 16;
+        _id -= 22;
     }
     return _id;
+}
+
+// SIGNAL 0
+void MainWindow::eventChanged(AGSEventType _t1, int _t2)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

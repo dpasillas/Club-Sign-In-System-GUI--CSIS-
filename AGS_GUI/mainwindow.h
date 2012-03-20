@@ -34,6 +34,11 @@ public:
     void updateUsername(QString username);
     void updatePassword(QString password);
 
+    void resetFields();
+
+signals:
+    void eventChanged(AGSEventType type, int id);
+
 public slots:
     void newFile();
     void openFile();
@@ -48,6 +53,10 @@ public slots:
     void setEventType(QString s);
     void setEventID(int i);
     void setEventTypeID(QString s, int i);
+    void setEvent(AGSEventType type, int i);
+    void setLogoutTime();
+    void setLogoutTime(int seconds);
+    void setTShirtCalc(double multiplier, bool on);
     void boo();
     void showError(QString s);
     void login();
@@ -66,16 +75,20 @@ protected:
     void timerEvent(QTimerEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
 private:
-    bool firstLogin;
-    static const int DISPLAY_MILS = 2500, IDLE_TIME = 60000;
+    bool firstLogin, tShirtCalc;
+    double mult;
+    static const int DISPLAY_MILS = 2500;
+    int IDLE_TIME;
     int stampTimer, readTimer, ot, messageTimer, loginTimer, lmTimer;
     Ui::MainWindow *ui;
     QString buffer, fName, eName, curFile;
     OptionsDialog *dialog;
     PasswordDialog *pDialog;
-    QFileDialog *fDialog;
+    //QFileDialog *fDialog;
     QInputDialog *iDialog;
     QStringList files;
+
+    QStringList agsEventTypes;
 
     enum { MaxRecentFiles = 10 };
     QAction *recentFileActs[MaxRecentFiles];

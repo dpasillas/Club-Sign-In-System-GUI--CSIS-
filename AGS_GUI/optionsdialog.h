@@ -9,17 +9,23 @@ namespace Ui {
     class OptionsDialog;
 }
 
+enum AGSEventType{NONE=0, AGS, CS, Meeting ,Social, Other};
+
 class OptionsDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    enum {HOST, USER, PASS, DATABASE, PORT, SEMESTER, EVENT, HRS_PER_PERSON,
-          TSHIRT_CALC,SHIFT,SUBMITTED_BY, SIZE};
+    enum {HOST, USER, PASS, DATABASE, PORT, SEMESTER, EVENT_TYPE, EVENT_ID, HRS_PER_PERSON,
+          TSHIRT_CALC, TSHIRT_MULT,SHIFT,SUBMITTED_BY, SIZE};
     explicit OptionsDialog(QWidget *parent = 0);
     ~OptionsDialog();
 
+signals:
+    void eventChanged(AGSEventType type, int id);
 public slots:
+    void setEvent(AGSEventType type, int id);
+    void setTShirtCalc(double multiplier, bool on);
     void accept();
     void reject();
 

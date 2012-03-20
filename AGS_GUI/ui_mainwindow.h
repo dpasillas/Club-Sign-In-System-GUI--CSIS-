@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Mar 7 19:15:05 2012
+** Created: Tue Mar 20 04:37:08 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -52,6 +52,7 @@ public:
     QAction *actionOpen;
     QAction *actionChange_Username_Password;
     QAction *actionLogout;
+    QAction *actionSet_Logout_Timer;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QStackedWidget *stackedWidget;
@@ -137,20 +138,20 @@ public:
 "	background-color: rgb(128, 0, 0);}\n"
 "QWidget#frame_2 *, #login_page *, #unopen_page *{\n"
 "	font: 150 20pt \"Times New Roman\";}\n"
-"#login_button{\n"
+"#login_button, #yes_button, #no_button{\n"
 "	border-style:solid;\n"
 "	border-width: 2px;\n"
 "	border-radius: 20px;\n"
 "	border-color: rgb(250, 195, 6);\n"
 "	background-color: rgb(128, 0, 0);\n"
 "	color: rgb(250, 195, 6);}\n"
-"#login_button:hover {\n"
+"#login_button:hover, #yes_button:hover, #no_button:hover {\n"
 "	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(237, 12, 12, 255), stop:0.409091 rgba(237, 12, 12, 255), stop:0.5 rgba(231, 4, 4, 255), stop:1 rgba(128, 0, 0, 255));\n"
 "}\n"
 "\n"
-"#login_button:pressed{\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0"
-                        ", y2:1, stop:0 rgba(128, 0, 0, 255), stop:0.403409 rgba(231, 4, 4, 255), stop:0.505682 rgba(237, 12, 12, 255), stop:1 rgba(237, 12, 12, 255));\n"
+"#login_button:pressed, #yes_"
+                        "button:pressed, #no_button:pressed{\n"
+"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(128, 0, 0, 255), stop:0.403409 rgba(231, 4, 4, 255), stop:0.505682 rgba(237, 12, 12, 255), stop:1 rgba(237, 12, 12, 255));\n"
 "}"));
         actionExport_log_to = new QAction(MainWindow);
         actionExport_log_to->setObjectName(QString::fromUtf8("actionExport_log_to"));
@@ -182,6 +183,8 @@ public:
         actionChange_Username_Password->setObjectName(QString::fromUtf8("actionChange_Username_Password"));
         actionLogout = new QAction(MainWindow);
         actionLogout->setObjectName(QString::fromUtf8("actionLogout"));
+        actionSet_Logout_Timer = new QAction(MainWindow);
+        actionSet_Logout_Timer->setObjectName(QString::fromUtf8("actionSet_Logout_Timer"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         centralWidget->setStyleSheet(QString::fromUtf8(""));
@@ -297,6 +300,7 @@ public:
         ags_id_line = new QLineEdit(frame_2);
         ags_id_line->setObjectName(QString::fromUtf8("ags_id_line"));
         ags_id_line->setMaxLength(4);
+        ags_id_line->setReadOnly(true);
 
         gridLayout->addWidget(ags_id_line, 3, 2, 1, 1);
 
@@ -496,6 +500,7 @@ public:
         menuTools->addAction(actionOptions);
         menuTools->addAction(menuChange_Event->menuAction());
         menuTools->addAction(actionChange_Username_Password);
+        menuTools->addAction(actionSet_Logout_Timer);
         menuChange_Event->addAction(actionAGSD);
         menuChange_Event->addAction(actionCS);
         menuChange_Event->addAction(actionMeeting);
@@ -531,6 +536,7 @@ public:
         actionOpen->setText(QApplication::translate("MainWindow", "&Open...", 0, QApplication::UnicodeUTF8));
         actionChange_Username_Password->setText(QApplication::translate("MainWindow", "Change Username/Password...", 0, QApplication::UnicodeUTF8));
         actionLogout->setText(QApplication::translate("MainWindow", "Logout", 0, QApplication::UnicodeUTF8));
+        actionSet_Logout_Timer->setText(QApplication::translate("MainWindow", "Set Logout Timer...", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("MainWindow", "Username:", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("MainWindow", "Password:", 0, QApplication::UnicodeUTF8));
         login_button->setText(QApplication::translate("MainWindow", "Login", 0, QApplication::UnicodeUTF8));

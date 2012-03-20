@@ -30,18 +30,18 @@ QFrame#frame_2 QLineEdit, #login_page QLineEdit{
 	background-color: rgb(128, 0, 0);}
 QWidget#frame_2 *, #login_page *, #unopen_page *{
 	font: 150 20pt &quot;Times New Roman&quot;;}
-#login_button{
+#login_button, #yes_button, #no_button{
 	border-style:solid;
 	border-width: 2px;
 	border-radius: 20px;
 	border-color: rgb(250, 195, 6);
 	background-color: rgb(128, 0, 0);
 	color: rgb(250, 195, 6);}
-#login_button:hover {
+#login_button:hover, #yes_button:hover, #no_button:hover {
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(237, 12, 12, 255), stop:0.409091 rgba(237, 12, 12, 255), stop:0.5 rgba(231, 4, 4, 255), stop:1 rgba(128, 0, 0, 255));
 }
 
-#login_button:pressed{
+#login_button:pressed, #yes_button:pressed, #no_button:pressed{
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(128, 0, 0, 255), stop:0.403409 rgba(231, 4, 4, 255), stop:0.505682 rgba(237, 12, 12, 255), stop:1 rgba(237, 12, 12, 255));
 }</string>
   </property>
@@ -244,6 +244,9 @@ QWidget#frame_2 *, #login_page *, #unopen_page *{
              <widget class="QLineEdit" name="ags_id_line">
               <property name="maxLength">
                <number>4</number>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -668,6 +671,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionOptions"/>
     <addaction name="menuChange_Event"/>
     <addaction name="actionChange_Username_Password"/>
+    <addaction name="actionSet_Logout_Timer"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -755,6 +759,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionLogout">
    <property name="text">
     <string>Logout</string>
+   </property>
+  </action>
+  <action name="actionSet_Logout_Timer">
+   <property name="text">
+    <string>Set Logout Timer...</string>
    </property>
   </action>
  </widget>

@@ -22,28 +22,35 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     firstLogin = true;
+    tShirtCalc = false;
+
+    IDLE_TIME = 60000;
 
     csWidget = new QWidget(this);
     csWidget->setWindowIcon(QIcon(":/images/cs_icon"));
     csWidget->setVisible(false);
 
+    agsEventTypes << "" << "AGS" << "CS" << "Meeting" << "Social" << "Other";
+
     //PasswordDialog pd;
     //pd.exec();
 
     dialog = new OptionsDialog(this);
+    connect(ui->actionOptions,SIGNAL(triggered()),this,SLOT(showOptions()));
+    connect(this,SIGNAL(eventChanged(AGSEventType,int)),dialog,SLOT(setEvent(AGSEventType,int)));
+    connect(dialog,SIGNAL(eventChanged(AGSEventType,int)),this,SLOT(setEvent(AGSEventType,int)));
+
     pDialog = new PasswordDialog(this);
     connect(ui->actionChange_Username_Password,SIGNAL(triggered()),pDialog,SLOT(exec()));
-    fDialog = new QFileDialog(this);
+    //fDialog = new QFileDialog(this);
     iDialog = new QInputDialog(this);
 
     installChildrenEventFilter(this);
     ID_Validator *val = new ID_Validator;
 
     //ui->mainToolBar->hide();
-    ui->statusBar->hide();
+    //ui->statusBar->hide();
     ui->menuBar->hide();
-
-    connect(ui->actionOptions,SIGNAL(triggered()),this,SLOT(showOptions()));
 
     updateTime();
     readTimer = 0;
@@ -60,8 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /*/Connections for reading a PCC ID/*/
     connect(ui->pcc_id_line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
     connect(ui->pcc_id_line,SIGNAL(returnPressed()),this,SLOT(lookupPCC_ID()));
-    connect(ui->ags_id_line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
-    connect(ui->ags_id_line,SIGNAL(returnPressed()),this,SLOT(lookupAGS_ID()));
+    //connect(ui->ags_id_line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
+    //connect(ui->ags_id_line,SIGNAL(returnPressed()),this,SLOT(lookupAGS_ID()));
     connect(val,SIGNAL(doneProcessing(QString)),this,SLOT(lookupPCC_ID(QString)));
     /*/ END PCC ID /*/
 
@@ -77,6 +84,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionExport_log_to,SIGNAL(triggered()),this,SLOT(exportFile()));
     connect(ui->actionLogout,SIGNAL(triggered()),this,SLOT(logout()));
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
+
+    connect(ui->actionSet_Logout_Timer,SIGNAL(triggered()),this,SLOT(setLogoutTime()));
+
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
     connect(ui->actionView_Tutorial,SIGNAL(triggered()),this,SLOT(tutorial()));
     connect(ui->actionReport_a_problem,SIGNAL(triggered()),this,SLOT(reportABug()));
@@ -129,14 +139,10 @@ void MainWindow::timerEvent(QTimerEvent *e)
     }
     else if(e->timerId() == readTimer)
     {
-        ui->pcc_id_line->setReadOnly(false);
-        ui->pcc_id_line->setText("");
-        ui->ags_id_line->setReadOnly(false);
-        ui->ags_id_line->setText("");
-        ui->first_name_line->setText("");
-        ui->last_name_line->setText("");
+        resetFields();
 
-        killTimer(readTimer);
+        if(readTimer)
+            killTimer(readTimer);
         readTimer = 0;
     }
     else if(e->timerId() == lmTimer)
@@ -151,6 +157,16 @@ void MainWindow::timerEvent(QTimerEvent *e)
         logout();
     }
     else;//qDebug() << buffer;
+}
+
+void MainWindow::resetFields()
+{
+    ui->pcc_id_line->setReadOnly(false);
+    ui->pcc_id_line->setText("");
+    //ui->ags_id_line->setReadOnly(false);
+    ui->ags_id_line->setText("");
+    ui->first_name_line->setText("");
+    ui->last_name_line->setText("");
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
@@ -222,9 +238,23 @@ void MainWindow::lookupPCC_ID(QString s)
         ui->pcc_id_line->setReadOnly(true);
         ui->ags_id_line->setText(QString::number(8910));//[1}
         ui->ags_id_line->setReadOnly(true);
+
+        if(tShirtCalc && true)//if(calc && login)[!]
+        {
+            killTimer(loginTimer);//Prevents logout before confirmation
+
+            bool tshirt =
+            QMessageBox::question(this,"AGS T-Shirt","Are you wearing an AGS T-Shirt?",QMessageBox::Yes | QMessageBox::No)
+                    == QMessageBox::Yes;
+            //do something with tshirt[!]
+
+            loginTimer = startTimer(IDLE_TIME); //Prevents logout
+        }
+
         if(readTimer != 0)
             killTimer(readTimer);
         readTimer = startTimer(DISPLAY_MILS);
+
         ui->first_name_line->setText("John");//[!]
         ui->last_name_line->setText("Doe");//[!]
 
@@ -245,7 +275,12 @@ void MainWindow::setEventID(int i)
 
 void MainWindow::setEventTypeID(QString s, int i)
 {
-    ui->event_label->setText(s.append(", ").append(QString::number(1)));
+    ui->event_label->setText(s.append(", ").append(QString::number(i)));
+}
+
+void MainWindow::setEvent(AGSEventType type, int i)
+{
+    setEventTypeID(agsEventTypes[type],i);
 }
 
 void MainWindow::boo()
@@ -260,6 +295,17 @@ void MainWindow::showError(QString s)
 
 void MainWindow::login()
 {
+    static QLabel *label = 0;
+    if(!label)
+    {
+        label = new QLabel;
+        ui->statusBar->addWidget(label);
+    }
+
+    if(false)//if(connected)
+        label->setText("Connected");
+    else
+        label->setText("Not Connected");
     //if condition should compare hash of Username and password to stored hash [!]
     if( validate(ui->username_line->text(),ui->password_line->text()) )
     {
@@ -393,26 +439,28 @@ void MainWindow::hideChildren(QWidget *w)
 
 void MainWindow::newFile()
 {
-    QStringList eventTypes;
-    eventTypes << "AGS" << "CS" << "Meeting" << "Social" << "Other";
+    QStringList eventTypes = agsEventTypes;
 
-    QString input;
-    bool accepted = false;
-    input = iDialog->getItem(this,"Event Type", "Please choose the event type:", eventTypes, 0, false,&accepted);
+    //The next three [!] mark where values are stored;
+    QString input;//[!]
+    bool accepted = true;
+    while(accepted && input.isEmpty())
+        input = iDialog->getItem(this,"Event Type", "Please choose the event type:", eventTypes, 0, false,&accepted);
     if(!accepted) return;
 
-    int id = -1;
+    int id = -1;//[!]
     id = iDialog->getInt(this,"Event ID","Please choose the event ID",0,0,2147483647,1,&accepted);
     if(!accepted) return;
 
     setEventTypeID(input,1);
 
-    QString name;
+    QString name;//[!]
     accepted = true;
     while(accepted && name.isEmpty())
         name = iDialog->getText(this, "Event Name", "Please name this event:",QLineEdit::Normal,"",&accepted);
     if(!accepted) return;
 
+    emit eventChanged((AGSEventType)agsEventTypes.indexOf(input),id);
     eName = name;
     QFile file(genFileName());
     if(file.open(QFile::WriteOnly))
@@ -428,12 +476,14 @@ void MainWindow::newFile()
 
 void MainWindow::openFile()
 {
+    QFileDialog d(this), *fDialog = &d;
     fDialog->setWindowTitle("Open");
     fDialog->setFileMode(QFileDialog::ExistingFile);
     fDialog->setNameFilter("Log Files (*.dat)");
     fDialog->setOption(QFileDialog::DontUseNativeDialog,false);
     fDialog->setViewMode(QFileDialog::List);
     fDialog->setAcceptMode(QFileDialog::AcceptOpen);
+    QByteArray array = fDialog->saveState();
     //QFileDialog::getOpenFileName(this);
     if(fDialog->exec())
     {
@@ -441,6 +491,7 @@ void MainWindow::openFile()
         loadFile(name);
         updateEventFromFile(name);
     }
+    fDialog->restoreState(array);
 }
 
 void MainWindow::openRecentFile()
@@ -473,16 +524,25 @@ void MainWindow::loadFile(QString s)
 
 void MainWindow::exportFile()
 {
+    QFileDialog d(this), *fDialog = &d;
     qDebug("Exporting...");
     fDialog->setWindowTitle("Export");
     fDialog->setFileMode(QFileDialog::AnyFile);
     fDialog->setNameFilter("Comma Delimited Format(*.csv)");
     fDialog->setViewMode(QFileDialog::List);
     fDialog->setAcceptMode(QFileDialog::AcceptSave);
+    fDialog->selectFile("");
+
     //QFileDialog::getOpenFileName(this);
     if(fDialog->exec())
     {
         QString name = fDialog->selectedFiles().at(0);
+        int pos = name.lastIndexOf(".");
+        if(pos == -1)
+            name.append(".csv");
+        else
+            name.replace(pos,name.length() - pos,".csv");
+        qDebug() << name;
         //[!]
     }
 
@@ -505,9 +565,11 @@ void MainWindow::updateEventFromFile(QString fileName)
     {
         QTextStream in(&file);
         QString line = file.readLine();
-        int pos = line.lastIndexOf(" ");
+        int pos = line.indexOf(" ");
+        int pos2 = line.indexOf(" ", pos+1);
         //qDebug() << pos << " " << line.length();
-        setEventTypeID(line.left(pos), line.right(line.length() - pos).toInt());
+        setEventTypeID(line.left(pos), line.mid(pos+1,pos2 - pos - 1).toInt());
+                       //line.right(line.length() - pos).toInt());
     }
 }
 
@@ -608,5 +670,30 @@ void MainWindow::reportABug()
                      "<hr>"
                      "You may also visit our website here: <a href = \"http://www.google.com\">http://www.google.com</a>");
 
-        QMessageBox::about(this,"Report a Problem",s);
+        QMessageBox::about(csWidget,"Report a Problem",s);
+}
+
+
+void MainWindow::setLogoutTime()
+{
+    bool ok = false;
+    int secs = iDialog->getInteger(this,"Logout Delay","Idle Seconds until logout:",10,0,2147438647,1,&ok);
+    if(ok)
+        setLogoutTime(secs);
+}
+
+void MainWindow::setLogoutTime(int seconds)
+{
+    if(loginTimer)
+        killTimer(loginTimer);
+    if(seconds)
+        loginTimer = startTimer(seconds * 1000);
+}
+
+void MainWindow::setTShirtCalc(double multiplier, bool on)
+{
+    mult = multiplier;
+    tShirtCalc = on;
+    qDebug() << multiplier << on;
+    //[!]
 }

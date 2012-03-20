@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'optionsdialog.ui'
 **
-** Created: Sat Mar 3 22:46:22 2012
+** Created: Tue Mar 20 01:02:15 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,13 +15,17 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QCheckBox>
+#include <QtGui/QComboBox>
 #include <QtGui/QDialog>
 #include <QtGui/QDialogButtonBox>
+#include <QtGui/QDoubleSpinBox>
 #include <QtGui/QFormLayout>
 #include <QtGui/QGroupBox>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QSpacerItem>
 #include <QtGui/QTabWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
@@ -53,23 +57,28 @@ public:
     QFormLayout *formLayout_2;
     QLabel *label_6;
     QLineEdit *semester_line;
+    QLabel *label_7;
+    QLineEdit *event_id_line;
     QLabel *label_8;
     QLineEdit *hours_per_person_line;
-    QLabel *label_9;
+    QLabel *label_12;
+    QHBoxLayout *horizontalLayout;
+    QDoubleSpinBox *multiplier_box;
+    QSpacerItem *horizontalSpacer_2;
     QCheckBox *tshirt_box;
     QLabel *label_10;
     QLineEdit *shift_line;
     QLabel *label_11;
     QLineEdit *submitted_by_line;
-    QLineEdit *event_line;
-    QLabel *label_7;
+    QLabel *label_9;
+    QComboBox *event_type_box;
     QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *OptionsDialog)
     {
         if (OptionsDialog->objectName().isEmpty())
             OptionsDialog->setObjectName(QString::fromUtf8("OptionsDialog"));
-        OptionsDialog->resize(400, 300);
+        OptionsDialog->resize(400, 303);
         verticalLayout = new QVBoxLayout(OptionsDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         tabWidget = new QTabWidget(OptionsDialog);
@@ -157,55 +166,82 @@ public:
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, semester_line);
 
+        label_7 = new QLabel(groupBox_2);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+
+        formLayout_2->setWidget(2, QFormLayout::LabelRole, label_7);
+
+        event_id_line = new QLineEdit(groupBox_2);
+        event_id_line->setObjectName(QString::fromUtf8("event_id_line"));
+
+        formLayout_2->setWidget(2, QFormLayout::FieldRole, event_id_line);
+
         label_8 = new QLabel(groupBox_2);
         label_8->setObjectName(QString::fromUtf8("label_8"));
 
-        formLayout_2->setWidget(2, QFormLayout::LabelRole, label_8);
+        formLayout_2->setWidget(3, QFormLayout::LabelRole, label_8);
 
         hours_per_person_line = new QLineEdit(groupBox_2);
         hours_per_person_line->setObjectName(QString::fromUtf8("hours_per_person_line"));
 
-        formLayout_2->setWidget(2, QFormLayout::FieldRole, hours_per_person_line);
+        formLayout_2->setWidget(3, QFormLayout::FieldRole, hours_per_person_line);
 
-        label_9 = new QLabel(groupBox_2);
-        label_9->setObjectName(QString::fromUtf8("label_9"));
+        label_12 = new QLabel(groupBox_2);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
 
-        formLayout_2->setWidget(3, QFormLayout::LabelRole, label_9);
+        formLayout_2->setWidget(4, QFormLayout::LabelRole, label_12);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        multiplier_box = new QDoubleSpinBox(groupBox_2);
+        multiplier_box->setObjectName(QString::fromUtf8("multiplier_box"));
+        multiplier_box->setMinimum(1);
+        multiplier_box->setMaximum(5);
+        multiplier_box->setSingleStep(0.1);
+
+        horizontalLayout->addWidget(multiplier_box);
+
+        horizontalSpacer_2 = new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_2);
 
         tshirt_box = new QCheckBox(groupBox_2);
         tshirt_box->setObjectName(QString::fromUtf8("tshirt_box"));
 
-        formLayout_2->setWidget(3, QFormLayout::FieldRole, tshirt_box);
+        horizontalLayout->addWidget(tshirt_box);
+
+
+        formLayout_2->setLayout(4, QFormLayout::FieldRole, horizontalLayout);
 
         label_10 = new QLabel(groupBox_2);
         label_10->setObjectName(QString::fromUtf8("label_10"));
 
-        formLayout_2->setWidget(4, QFormLayout::LabelRole, label_10);
+        formLayout_2->setWidget(5, QFormLayout::LabelRole, label_10);
 
         shift_line = new QLineEdit(groupBox_2);
         shift_line->setObjectName(QString::fromUtf8("shift_line"));
 
-        formLayout_2->setWidget(4, QFormLayout::FieldRole, shift_line);
+        formLayout_2->setWidget(5, QFormLayout::FieldRole, shift_line);
 
         label_11 = new QLabel(groupBox_2);
         label_11->setObjectName(QString::fromUtf8("label_11"));
 
-        formLayout_2->setWidget(5, QFormLayout::LabelRole, label_11);
+        formLayout_2->setWidget(6, QFormLayout::LabelRole, label_11);
 
         submitted_by_line = new QLineEdit(groupBox_2);
         submitted_by_line->setObjectName(QString::fromUtf8("submitted_by_line"));
 
-        formLayout_2->setWidget(5, QFormLayout::FieldRole, submitted_by_line);
+        formLayout_2->setWidget(6, QFormLayout::FieldRole, submitted_by_line);
 
-        event_line = new QLineEdit(groupBox_2);
-        event_line->setObjectName(QString::fromUtf8("event_line"));
+        label_9 = new QLabel(groupBox_2);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
 
-        formLayout_2->setWidget(1, QFormLayout::FieldRole, event_line);
+        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_9);
 
-        label_7 = new QLabel(groupBox_2);
-        label_7->setObjectName(QString::fromUtf8("label_7"));
+        event_type_box = new QComboBox(groupBox_2);
+        event_type_box->setObjectName(QString::fromUtf8("event_type_box"));
 
-        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_7);
+        formLayout_2->setWidget(1, QFormLayout::FieldRole, event_type_box);
 
 
         verticalLayout_2->addWidget(groupBox_2);
@@ -244,12 +280,22 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("OptionsDialog", "Database", 0, QApplication::UnicodeUTF8));
         groupBox_2->setTitle(QApplication::translate("OptionsDialog", "AGS Settings", 0, QApplication::UnicodeUTF8));
         label_6->setText(QApplication::translate("OptionsDialog", "Semester ID:", 0, QApplication::UnicodeUTF8));
+        label_7->setText(QApplication::translate("OptionsDialog", "Event ID:", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("OptionsDialog", "Event Hours Per Person:", 0, QApplication::UnicodeUTF8));
-        label_9->setText(QApplication::translate("OptionsDialog", "AGS T-Shirt Calculator:", 0, QApplication::UnicodeUTF8));
+        label_12->setText(QApplication::translate("OptionsDialog", "T-Shirt Multiplier:", 0, QApplication::UnicodeUTF8));
         tshirt_box->setText(QApplication::translate("OptionsDialog", "Check to Enable", 0, QApplication::UnicodeUTF8));
         label_10->setText(QApplication::translate("OptionsDialog", "Shift ID:", 0, QApplication::UnicodeUTF8));
         label_11->setText(QApplication::translate("OptionsDialog", "Submitted_by ID:", 0, QApplication::UnicodeUTF8));
-        label_7->setText(QApplication::translate("OptionsDialog", "Event ID:", 0, QApplication::UnicodeUTF8));
+        label_9->setText(QApplication::translate("OptionsDialog", "Event Type:", 0, QApplication::UnicodeUTF8));
+        event_type_box->clear();
+        event_type_box->insertItems(0, QStringList()
+         << QString()
+         << QApplication::translate("OptionsDialog", "AGS", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("OptionsDialog", "CS", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("OptionsDialog", "Meeting", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("OptionsDialog", "Social", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("OptionsDialog", "Other", 0, QApplication::UnicodeUTF8)
+        );
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("OptionsDialog", "AGS", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
