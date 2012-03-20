@@ -108,6 +108,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(&[LoggerClass],SIGNAL(append(QString)),ui->textEdit,SLOT(append(QString))); [!]
 
     updateRecentFileActions();
+
+    setWindowState(Qt::WindowFullScreen);
 }
 
 MainWindow::~MainWindow()
