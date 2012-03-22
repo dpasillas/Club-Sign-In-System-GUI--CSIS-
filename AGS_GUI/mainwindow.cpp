@@ -97,6 +97,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionLogout,SIGNAL(triggered()),this,SLOT(logout()));
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
 
+    if(false) //if(could not find settings) [!]
+    {
+        showError("Could not find settings file");
+        deleteLater();
+    }
+
     connect(ui->actionSet_Logout_Timer,SIGNAL(triggered()),this,SLOT(setLogoutTime()));
 
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(about()));
@@ -249,6 +255,12 @@ void MainWindow::lookupPCC_ID(QString s)
     if(ui->pcc_id_line->isReadOnly() || s.length() < 8)
         return;
 
+    if( criticalValues[EXPORTED].toInt() )
+    {
+        showError("This session has been uploaded, and may no longer be modified.");
+        return;
+    }
+
     //ui->textEdit->append(s); // each append is considered its own paragraph
     //qDebug(s.toStdString().c_str());
     //if([successful lookup])[!]
@@ -300,7 +312,7 @@ void MainWindow::boo()
 
 void MainWindow::showError(QString s)
 {
-
+    QMessageBox::warning(this,"Error",s,QMessageBox::Ok);
 }
 
 void MainWindow::login()
@@ -438,7 +450,7 @@ void MainWindow::newFile()
     criticalValues[EVENT_NAME] = name;
     QFile file(genFileName());
     bool shouldLoad = false;
-    if(file.open(QFile::WriteOnly))
+    if(file.open(QFile::WriteOnly | QFile::Text))
     {
         shouldLoad = true;
         criticalValues[EVENT_TYPE] = input;
@@ -767,7 +779,8 @@ QString MainWindow::generateHeader()
     for(int i = 0; i < HEADER_SIZE; i++)
         newHeader += criticalValues[i] + "+";
 
-    newHeader[newHeader.size() - 1] = '\n';
+    //newHeader[newHeader.size() - 1] = '\n';
+    newHeader.replace(newHeader.length()-1,1,"\r\n");
 
     return newHeader;
 }
@@ -823,6 +836,7 @@ QString MainWindow::getID(QString labelText, bool &ok)
         v = new QVBoxLayout;
 
         line->setValidator(val);
+        line->setMaxLength(8);
         connect(line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
         connect(val,SIGNAL(doneProcessing(QString)),line,SLOT(setText(QString)));
 
