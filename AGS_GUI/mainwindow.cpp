@@ -7,6 +7,7 @@
 
 #include <QDateTime>
 #include <QDebug>
+#include <QDialogButtonBox>
 #include <QKeyEvent>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -21,14 +22,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    firstLogin = true;
-    tShirtCalc = false;
+    /*/ status bar stuff /*/
+    label = new QLabel;
+    ui->statusBar->addWidget(label);
+    /*/ end status stuff /*/
 
-    IDLE_TIME = 60000;
+    firstLogin = true;
+    criticalValues[MULTIPLIER_ON] = "0";
 
     csWidget = new QWidget(this);
     csWidget->setWindowIcon(QIcon(":/images/cs_icon"));
     csWidget->setVisible(false);
+    ui->menuChange_Event->setVisible(false);
 
     agsEventTypes << "" << "AGS" << "CS" << "Meeting" << "Social" << "Other";
 
@@ -45,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //fDialog = new QFileDialog(this);
     iDialog = new QInputDialog(this);
 
+    IDLE_TIME = 60000;
+    CONNECTION_REFRESH = 10000; //[!]
+
     installChildrenEventFilter(this);
     ID_Validator *val = new ID_Validator;
 
@@ -53,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuBar->hide();
 
     updateTime();
+    connectionTimer = 0;
     readTimer = 0;
     messageTimer = 0;
     loginTimer = 0;
@@ -158,6 +167,10 @@ void MainWindow::timerEvent(QTimerEvent *e)
     {
         logout();
     }
+    else if(e->timerId() == connectionTimer)
+    {
+        testConnection();
+    }
     else;//qDebug() << buffer;
 }
 
@@ -241,7 +254,7 @@ void MainWindow::lookupPCC_ID(QString s)
         ui->ags_id_line->setText(QString::number(8910));//[1}
         ui->ags_id_line->setReadOnly(true);
 
-        if(tShirtCalc && true)//if(calc && login)[!]
+        if(criticalValues[MULTIPLIER_ON].toInt() && true)//if(calc && login)[!]
         {
             killTimer(loginTimer);//Prevents logout before confirmation
 
@@ -265,18 +278,10 @@ void MainWindow::lookupPCC_ID(QString s)
         //log data [!]
 }
 
-void MainWindow::setEventType(QString s)
-{
-    ui->event_label->setText(s);
-}
-
-void MainWindow::setEventID(int i)
-{
-
-}
-
 void MainWindow::setEventTypeID(QString s, int i)
 {
+    criticalValues[EVENT_TYPE] = s;//QString::number((AGSEventType)agsEventTypes.indexOf(s));
+    criticalValues[EVENT_ID] = QString::number(i);
     ui->event_label->setText(s.append(", ").append(QString::number(i)));
 }
 
@@ -297,63 +302,15 @@ void MainWindow::showError(QString s)
 
 void MainWindow::login()
 {
-    static QLabel *label = 0;
-    if(!label)
-    {
-        label = new QLabel;
-        ui->statusBar->addWidget(label);
-    }
 
-    if(false)//if(connected)
-        label->setText("Connected");
-    else
-        label->setText("Not Connected");
+    testConnection();
+    setTimer(connectionTimer,CONNECTION_REFRESH);
     //if condition should compare hash of Username and password to stored hash [!]
     if( validate(ui->username_line->text(),ui->password_line->text()) )
     {
 
         if(firstLogin)
         {
-            /*
-            QMessageBox msgBox;
-            msgBox.setText("A log file for today already exists.");
-            msgBox.setInformativeText("Would you like to open an existing log file?");
-            msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            int selection = msgBox.exec();
-
-            QString fileName;
-            if(selection == QMessageBox::Ok)//if file found && OK [!]
-            {
-                fileName = QFileDialog::getOpenFileName(this,"Log File", "","Log Files (*.dat)");
-                QFile file(fileName);
-                if(file.open(QFile::ReadOnly))
-                {
-                    int pos = fileName.lastIndexOf("/");
-                    ui->file_name->setText(fileName.right(fileName.length() - pos - 1));
-                    QTextStream stream(&file);
-                    ui->textEdit->setText(stream.readAll());
-                }
-
-            }
-            if(fileName.isEmpty()) //the user chose not to open a previous file, must choose
-            {
-                QInputDialog inputDialog(this);
-                QStringList eventTypes;
-                eventTypes << "AGS" << "CS" << "Meeting" << "Social" << "Other";
-
-                QString input = inputDialog.getItem(this,"Event Type", "Please choose the event type:", eventTypes, 0, false);
-                qDebug() << input;
-
-                QString name;
-                while(name.isEmpty())
-                    name = inputDialog.getText(this, "Event Name", "Please name this event:");
-
-                ui->file_name->setText(QDateTime::currentDateTime().toString(ui->file_name->text()));
-                ui->file_name->setText(ui->file_name->text().append(" ").append(name).append(".dat"));
-
-
-            }*/
             ui->stackedWidget->setCurrentIndex(2);
             ui->menuBar->show();
 
@@ -420,6 +377,10 @@ void MainWindow::logout()
 
     killTimer(loginTimer);
     loginTimer = 0;
+
+    killTimer(connectionTimer);
+    connectionTimer = 0;
+    label->setText("");
 }
 
 void MainWindow::installChildrenEventFilter(QObject *o)
@@ -440,7 +401,7 @@ void MainWindow::hideChildren(QWidget *w)
 }
 
 void MainWindow::newFile()
-{
+{   
     QStringList eventTypes = agsEventTypes;
 
     //The next three [!] mark where values are stored;
@@ -454,7 +415,7 @@ void MainWindow::newFile()
     id = iDialog->getInt(this,"Event ID","Please choose the event ID",0,0,2147483647,1,&accepted);
     if(!accepted) return;
 
-    setEventTypeID(input,1);
+    setEventTypeID(input,id);
 
     QString name;//[!]
     accepted = true;
@@ -462,18 +423,41 @@ void MainWindow::newFile()
         name = iDialog->getText(this, "Event Name", "Please name this event:",QLineEdit::Normal,"",&accepted);
     if(!accepted) return;
 
-    emit eventChanged((AGSEventType)agsEventTypes.indexOf(input),id);
-    eName = name;
+    QString adminID;
+    accepted = true;
+    while(accepted && adminID.isEmpty())
+        adminID = getID("Who will administrate this event? (PCC Student ID)", accepted);
+
+    //criticalValues[SHIFT_ID] =;
+
+    dialog->setEvent((AGSEventType)agsEventTypes.indexOf(input),id);
+
+    criticalValues[EVENT_NAME] = name;
     QFile file(genFileName());
+    bool shouldLoad = false;
     if(file.open(QFile::WriteOnly))
     {
-        //qDebug() << true;
+        shouldLoad = true;
+        criticalValues[EVENT_TYPE] = input;
+        criticalValues[EVENT_ID] = QString::number(id);
+        criticalValues[DATE] = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        criticalValues[EVENT_NAME] = name;
+        criticalValues[SHIFT_ID] = "0"; // lookup value [!]
+        criticalValues[SEMESTER_ID] = "0"; // [!]
+        criticalValues[SUBMITTED_BY_ID] = adminID;
+        criticalValues[MULTIPLIER_ON] = "0";
+        criticalValues[MULTIPLIER] = QString::number(1.00,'f',2);
+        criticalValues[EXPORTED] = "0";
+
         QTextStream out(&file);
-        out << ui->event_label->text().remove(",");
+        out << generateHeader();
+        file.close();//loadFile(file.fileName());
+    }
+
+    if(shouldLoad)
+    {
         loadFile(file.fileName());
     }
-    else
-        ;//qDebug() << false;
 }
 
 void MainWindow::openFile()
@@ -515,11 +499,12 @@ void MainWindow::loadFile(QString s)
         int pos = s.lastIndexOf("/");
         ui->file_name->setText(s.right(s.length() - pos - 1));
         QTextStream stream(&file);
-        stream.readLine(); //discard Event & ID
+        updateValues(stream.readLine()); //load appropriate values
         ui->textEdit->setText(stream.readAll());
 
         showMain();
         setCurrentFile(s);
+        updateOptions();
     }
 
 }
@@ -578,7 +563,7 @@ void MainWindow::updateEventFromFile(QString fileName)
 QString MainWindow::genFileName()
 {
     QString name = QDir::currentPath().append("/logs/").append(QDateTime::currentDateTime().toString("yyyy-MM-dd "));
-    name.append(eName).append(".dat");
+    name.append(criticalValues[EVENT_NAME]).append(".dat");
     return name;
 }
 
@@ -679,7 +664,7 @@ void MainWindow::reportABug()
 void MainWindow::setLogoutTime()
 {
     bool ok = false;
-    int secs = iDialog->getInteger(this,"Logout Delay","Idle Seconds until logout:",10,0,2147438647,1,&ok);
+    int secs = iDialog->getInteger(this,"Logout Delay","Idle Seconds until logout:",IDLE_TIME / 1000,0,2147438647,1,&ok);
     if(ok)
         setLogoutTime(secs);
 }
@@ -694,8 +679,180 @@ void MainWindow::setLogoutTime(int seconds)
 
 void MainWindow::setTShirtCalc(double multiplier, bool on)
 {
-    mult = multiplier;
-    tShirtCalc = on;
+    criticalValues[MULTIPLIER] = QString::number(multiplier,'f',2);
+    criticalValues[MULTIPLIER_ON] = on?"1":"0";
     qDebug() << multiplier << on;
     //[!]
+}
+
+void MainWindow::testConnection()
+{
+    bool connected = false; //[!]
+    label->setText(QString("Connection Status: ").append((connected)?"<b>ONLINE</b>":"<b>OFFLINE</b>"));
+    qDebug() << "Connection Tested";
+}
+
+void MainWindow::setTimer(int& id, int& var, int msecs)
+{
+    if(id)
+        killTimer(id);
+    if(msecs)
+        var = msecs;
+    id = startTimer(var);
+}
+
+void MainWindow::rewriteHeader()
+{
+    if(curFile.isEmpty())
+        return;
+    QFile file(curFile);
+    QString oldHeader;
+    QString buffer;
+    if(file.open(QFile::ReadOnly | QFile::Text))
+    {
+        QTextStream in(&file);
+        oldHeader = in.readLine();
+        buffer =in.readAll();
+    }
+    else return;
+    file.close();
+
+    QString newHeader = generateHeader();
+    /*int pos = ui->file_name->text().indexOf(" ");
+    int length = ui->file_name->text().length();
+
+    for(int i = 0; i < HEADER_SIZE; i++)
+        newHeader += criticalValues[i] + "+";
+    newHeader = newHeader.left(newHeader.length() - 1);
+
+    newHeader += criticalValues[EVENT_TYPE] + "+";
+    newHeader += criticalValues[EVENT_ID] + "+";
+    newHeader += ui->file_name->text().left(pos) + "+";
+    newHeader += ui->file_name->text().mid(pos + 1, length - pos - 5) + "+";
+    newHeader += QString() + "+";//shift_id
+    newHeader += QString() + "+";//semester_id
+    newHeader += QString() + "+";//submitted_by_id
+    newHeader += QString(criticalValues[MULTIPLIER_ON].toInt()?"1":"0") + "+";//tshirt_state
+    newHeader += criticalValues[MULTIPLIER] + "+";//multiplier
+    newHeader += oldHeader.right(1);//exported_bit
+    newHeader += " \n";*/
+
+    if(file.open(QFile::WriteOnly | QFile::Text))
+    {
+        QTextStream out(&file);
+        out << newHeader;
+        out << buffer;
+        qDebug() << newHeader;
+    }
+}
+
+QString MainWindow::generateHeader()
+{
+    QString newHeader;
+    for(int i = 0; i < HEADER_SIZE; i++)
+        newHeader += criticalValues[i] + "+";
+
+    newHeader[newHeader.size() - 1] = '\n';
+
+    return newHeader;
+}
+
+void MainWindow::updateValues(QString values)
+{
+    if(values.isEmpty())
+        return;
+    int index = 0;
+    QList<int> pos;
+    pos.append(-1);
+    while(index != -1)
+    {
+        pos.append(values.indexOf("+",index+1));
+        index = pos.last();
+    }
+    pos.last() = values.length();
+
+    if(pos.count() == 11)
+    {
+        for(int i = 0; i < 10; i++)
+            criticalValues[i] = values.mid(pos[i]+1,pos[i+1]-pos[i]-1);
+        /*
+        eType = (AGSEventType)agsEventTypes.indexOf(values.left(pos[0])); //Event Type
+        eID = vmid(1);//Event ID 0 1
+        vmid(2);//Date Stamp 1 2
+        eName = vmid(3);//values.mid(pos[2]+1,pos[3]-pos[2]-1);//Event Name 2 3
+        vmid(4).toInt();//Shift 3 4
+        vmid(5).toInt();//Semester 4 5
+        vmid(6).toInt();//Submitted 5 6
+        tShirtCalc = vmid(7).toInt();//Tshirt state 6 7
+        mult = vmid(8).toDouble();//multiplier 7 8
+        vmid(9).toInt();//exported bit 8 last*/
+    }
+    else
+    {
+        int pos = values.indexOf(" ");
+        criticalValues[EVENT_TYPE] = values.left(pos);
+        criticalValues[EVENT_ID] = values.right(values.length() - pos - 1);
+    }
+}
+
+QString MainWindow::getID(QString labelText, bool &ok)
+{
+    static QDialog dialog;
+    static QVBoxLayout *v = 0;
+
+    static QLineEdit *line = new QLineEdit;
+    static QLabel *label = new QLabel;
+    static ID_Validator *val = new ID_Validator;
+    if(!v)
+    {
+        v = new QVBoxLayout;
+
+        line->setValidator(val);
+        connect(line,SIGNAL(returnPressed()),val,SLOT(doneReading()));
+        connect(val,SIGNAL(doneProcessing(QString)),line,SLOT(setText(QString)));
+
+        QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+
+        connect(box,SIGNAL(accepted()),&dialog,SLOT(accept()));
+        connect(box,SIGNAL(rejected()),&dialog,SLOT(reject()));
+
+        v->addSpacing(0);
+        v->addWidget(label);
+        v->addWidget(line);
+        v->addSpacing(0);
+        v->addWidget(box);
+
+        dialog.setLayout(v);
+    }
+    label->setText(labelText);
+
+    line->setText("");
+    ok = dialog.exec() == QDialog::Accepted;
+
+    if(line->text().length() == 8)
+    {
+        return line->text();
+    }
+
+    return "";
+}
+
+void MainWindow::setValue(HeaderValues type, QString value)
+{
+    criticalValues[type] = value;
+
+    rewriteHeader();
+}
+
+void MainWindow::updateOptions()
+{
+    //HOST, USER, PASS, DATABASE, PORT, , , , HRS_PER_PERSON, , , ,
+    //, , DATE, EVENT_NAME, , , , , , EXPORTED, HEADER_SIZE
+    dialog->setValue(OptionsDialog::EVENT_TYPE,QString::number(agsEventTypes.indexOf(criticalValues[EVENT_TYPE])));
+    dialog->setValue(OptionsDialog::EVENT_ID,criticalValues[EVENT_ID]);
+    dialog->setValue(OptionsDialog::SEMESTER,criticalValues[SEMESTER_ID]);
+    dialog->setValue(OptionsDialog::SHIFT,criticalValues[SHIFT_ID]);
+    dialog->setValue(OptionsDialog::SUBMITTED_BY,criticalValues[SUBMITTED_BY_ID]);
+    dialog->setValue(OptionsDialog::TSHIRT_MULT,criticalValues[MULTIPLIER]);
+    dialog->setValue(OptionsDialog::TSHIRT_CALC,criticalValues[MULTIPLIER_ON]);
 }

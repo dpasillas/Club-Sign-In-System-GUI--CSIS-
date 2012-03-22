@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'optionsdialog.h'
 **
-** Created: Tue Mar 20 04:00:59 2012
+** Created: Wed Mar 21 18:07:53 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_OptionsDialog[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,8 +35,9 @@ static const uint qt_meta_data_OptionsDialog[] = {
 
  // slots: signature, parameters, type, tag, flags
       54,   15,   14,   14, 0x0a,
-      81,   14,   14,   14, 0x0a,
-      90,   14,   14,   14, 0x0a,
+      95,   81,   14,   14, 0x0a,
+     122,   14,   14,   14, 0x0a,
+     131,   14,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -44,7 +45,8 @@ static const uint qt_meta_data_OptionsDialog[] = {
 static const char qt_meta_stringdata_OptionsDialog[] = {
     "OptionsDialog\0\0type,id\0"
     "eventChanged(AGSEventType,int)\0"
-    "setEvent(AGSEventType,int)\0accept()\0"
+    "setEvent(AGSEventType,int)\0multiplier,on\0"
+    "setTShirtCalc(double,bool)\0accept()\0"
     "reject()\0"
 };
 
@@ -79,11 +81,12 @@ int OptionsDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: eventChanged((*reinterpret_cast< AGSEventType(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 1: setEvent((*reinterpret_cast< AGSEventType(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 2: accept(); break;
-        case 3: reject(); break;
+        case 2: setTShirtCalc((*reinterpret_cast< double(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 3: accept(); break;
+        case 4: reject(); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

@@ -16,10 +16,12 @@ class OptionsDialog : public QDialog
     Q_OBJECT
 
 public:
-    enum {HOST, USER, PASS, DATABASE, PORT, SEMESTER, EVENT_TYPE, EVENT_ID, HRS_PER_PERSON,
+    enum OptionTypes{HOST, USER, PASS, DATABASE, PORT, SEMESTER, EVENT_TYPE, EVENT_ID, HRS_PER_PERSON,
           TSHIRT_CALC, TSHIRT_MULT,SHIFT,SUBMITTED_BY, SIZE};
     explicit OptionsDialog(QWidget *parent = 0);
     ~OptionsDialog();
+
+    void setValue(OptionTypes type, QString value);
 
 signals:
     void eventChanged(AGSEventType type, int id);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Tue Mar 20 04:00:58 2012
+** Created: Wed Mar 21 18:13:40 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      22,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -44,17 +44,23 @@ static const uint qt_meta_data_MainWindow[] = {
      149,   11,   11,   11, 0x0a,
      164,   11,   11,   11, 0x0a,
      179,   85,   11,   11, 0x0a,
-     201,   85,   11,   11, 0x0a,
-     225,  223,   11,   11, 0x0a,
-     245,  241,   11,   11, 0x0a,
-     280,  273,   11,   11, 0x0a,
-     307,   11,   11,   11, 0x0a,
-     313,   85,   11,   11, 0x0a,
-     332,   11,   11,   11, 0x0a,
-     340,   11,   11,   11, 0x0a,
-     349,   11,   11,   11, 0x0a,
-     357,   11,   11,   11, 0x0a,
-     368,   11,   11,   11, 0x0a,
+     205,  201,   11,   11, 0x0a,
+     240,  233,   11,   11, 0x0a,
+     267,   11,   11,   11, 0x0a,
+     291,  283,   11,   11, 0x0a,
+     324,  310,   11,   11, 0x0a,
+     364,  351,   11,   11, 0x0a,
+     395,  388,   11,   11, 0x2a,
+     415,   11,   11,   11, 0x0a,
+     421,   85,   11,   11, 0x0a,
+     440,   11,   11,   11, 0x0a,
+     448,   11,   11,   11, 0x0a,
+     457,   11,   11,   11, 0x0a,
+     465,   11,   11,   11, 0x0a,
+     476,   11,   11,   11, 0x0a,
+     489,   11,   11,   11, 0x0a,
+     514,   11,  506,   11, 0x0a,
+     531,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -65,11 +71,15 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "loadFile(QString)\0openRecentFile()\0"
     "showOptions()\0updateTime()\0lookupAGS_ID()\0"
     "lookupPCC_ID()\0lookupPCC_ID(QString)\0"
-    "setEventType(QString)\0i\0setEventID(int)\0"
     "s,i\0setEventTypeID(QString,int)\0type,i\0"
-    "setEvent(AGSEventType,int)\0boo()\0"
-    "showError(QString)\0login()\0logout()\0"
-    "about()\0tutorial()\0reportABug()\0"
+    "setEvent(AGSEventType,int)\0setLogoutTime()\0"
+    "seconds\0setLogoutTime(int)\0multiplier,on\0"
+    "setTShirtCalc(double,bool)\0id,var,msecs\0"
+    "setTimer(int&,int&,int)\0id,var\0"
+    "setTimer(int&,int&)\0boo()\0showError(QString)\0"
+    "login()\0logout()\0about()\0tutorial()\0"
+    "reportABug()\0testConnection()\0QString\0"
+    "generateHeader()\0rewriteHeader()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -112,20 +122,27 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 8: lookupAGS_ID(); break;
         case 9: lookupPCC_ID(); break;
         case 10: lookupPCC_ID((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 11: setEventType((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 12: setEventID((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 13: setEventTypeID((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 14: setEvent((*reinterpret_cast< AGSEventType(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 15: boo(); break;
-        case 16: showError((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 17: login(); break;
-        case 18: logout(); break;
-        case 19: about(); break;
-        case 20: tutorial(); break;
-        case 21: reportABug(); break;
+        case 11: setEventTypeID((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 12: setEvent((*reinterpret_cast< AGSEventType(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 13: setLogoutTime(); break;
+        case 14: setLogoutTime((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: setTShirtCalc((*reinterpret_cast< double(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 16: setTimer((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 17: setTimer((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 18: boo(); break;
+        case 19: showError((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 20: login(); break;
+        case 21: logout(); break;
+        case 22: about(); break;
+        case 23: tutorial(); break;
+        case 24: reportABug(); break;
+        case 25: testConnection(); break;
+        case 26: { QString _r = generateHeader();
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
+        case 27: rewriteHeader(); break;
         default: ;
         }
-        _id -= 22;
+        _id -= 28;
     }
     return _id;
 }

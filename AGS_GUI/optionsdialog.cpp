@@ -30,12 +30,12 @@ void OptionsDialog::accept()
     /*/            this is the easiest way to get a necessary value            /*/
     /*/ You may also check to see if the value changed with valueChanged[enum] /*/
     //[!]
-    emit eventChanged((AGSEventType)defaults[EVENT_TYPE].toInt(),defaults[EVENT_ID].toInt());
-    mwp()->setTShirtCalc(defaults[TSHIRT_MULT].toDouble(),defaults[TSHIRT_CALC] == "TRUE");
+    mwp()->setEvent((AGSEventType)defaults[EVENT_TYPE].toInt(),defaults[EVENT_ID].toInt());
+    mwp()->setTShirtCalc(defaults[TSHIRT_MULT].toDouble(),defaults[TSHIRT_CALC] == "1");
     for(int i = 0; i < SIZE; i++)
     {
         if(valueChanged[i])
-            qDebug() << i;
+            qDebug() << i << defaults[i];
     }
 
     QDialog::accept(); //DO NOT MODIFY
@@ -90,7 +90,7 @@ void OptionsDialog::getDefaults()
     valueChanged[HRS_PER_PERSON] = false;
 
     //set T-shirt calc
-    defaults[TSHIRT_CALC] = "FALSE";
+    defaults[TSHIRT_CALC] = "0";
     valueChanged[TSHIRT_CALC] = false;
 
     defaults[TSHIRT_MULT] = "1.00";
@@ -108,6 +108,22 @@ void OptionsDialog::getDefaults()
 
 void OptionsDialog::updateDefaults()
 {
+    /*/ /*/ /*/ /*/ /*/
+    EVENT_TYPE --
+    EVENT_ID --
+    DATE xx
+    EVENT_NAME xx
+    SHIFT_ID ++ ^
+    SEMESTER_ID ++ ^
+    SUBMITTED_BY_ID ++ ^
+    MULTIPLIER_ON xx
+    MULTIPLIER xx
+    EXPORTED xx
+    HEADER_SIZE xx
+    /*/ /*/ /*/ /*/ /*/
+
+    MainWindow *w = mwp();
+
     valueChanged[HOST] = defaults[HOST] != ui->host_line->text();
     defaults[HOST] = ui->host_line->text();
 
@@ -126,6 +142,7 @@ void OptionsDialog::updateDefaults()
 
     valueChanged[SEMESTER] = defaults[SEMESTER] != ui->semester_line->text();
     defaults[SEMESTER] = ui->semester_line->text();
+    w->setValue(MainWindow::SEMESTER_ID,defaults[SEMESTER]);
 
     valueChanged[EVENT_TYPE] = defaults[EVENT_TYPE] != QString::number(ui->event_type_box->currentIndex());
     defaults[EVENT_TYPE] = QString::number(ui->event_type_box->currentIndex());
@@ -136,17 +153,21 @@ void OptionsDialog::updateDefaults()
     valueChanged[HRS_PER_PERSON] = defaults[HRS_PER_PERSON] != ui->hours_per_person_line->text();
     defaults[HRS_PER_PERSON] = ui->hours_per_person_line->text();
 
-    valueChanged[TSHIRT_CALC] = defaults[TSHIRT_CALC] != ((ui->tshirt_box->isChecked())?"TRUE":"FALSE");
-    defaults[TSHIRT_CALC] = (ui->tshirt_box->isChecked())?"TRUE":"FALSE";
+    valueChanged[TSHIRT_CALC] = defaults[TSHIRT_CALC] != ((ui->tshirt_box->isChecked())?"1":"0");
+    defaults[TSHIRT_CALC] = (ui->tshirt_box->isChecked())?"1":"0";
 
+    if(defaults[TSHIRT_CALC] == "0")
+        defaults[TSHIRT_MULT] = "1.00";
     valueChanged[TSHIRT_MULT] = defaults[TSHIRT_MULT] != QString::number(ui->multiplier_box->value());
     defaults[TSHIRT_MULT] = ui->multiplier_box->text();
 
     valueChanged[SHIFT] = defaults[SHIFT] != ui->shift_line->text();
     defaults[SHIFT] = ui->shift_line->text();
+    w->setValue(MainWindow::SHIFT_ID,defaults[SHIFT]);
 
     valueChanged[SUBMITTED_BY] = defaults[SUBMITTED_BY] != ui->submitted_by_line->text();
     defaults[SUBMITTED_BY] = ui->submitted_by_line->text();
+    w->setValue(MainWindow::SUBMITTED_BY_ID, defaults[SUBMITTED_BY]);
 }
 
 void OptionsDialog::updateFields()
@@ -161,7 +182,9 @@ void OptionsDialog::updateFields()
     ui->event_type_box->setCurrentIndex(defaults[EVENT_TYPE].toInt());
     ui->event_id_line->setText(defaults[EVENT_ID]);
     ui->hours_per_person_line->setText(defaults[HRS_PER_PERSON]);
-    ui->tshirt_box->setChecked(defaults[TSHIRT_CALC] == "TRUE");
+    ui->tshirt_box->setChecked(defaults[TSHIRT_CALC] == "1");
+    if(defaults[TSHIRT_CALC] == "0")
+        defaults[TSHIRT_MULT] = "1.00";
     ui->multiplier_box->setValue(defaults[TSHIRT_MULT].toDouble());
     ui->shift_line->setText(defaults[SHIFT]);
     ui->submitted_by_line->setText(defaults[SUBMITTED_BY]);
@@ -183,4 +206,42 @@ void OptionsDialog::setTShirtCalc(double multiplier, bool on)
 
     updateDefaults();
     //Do what you need with these two values here[!]
+}
+
+void OptionsDialog::setValue(OptionTypes type, QString value)
+{
+    defaults[type] = value;
+
+    switch(type)//-- means the line is never used
+    {
+    case HOST://--
+        break;
+    case USER://--
+        break;
+    case PASS://--
+        break;
+    case DATABASE://--
+        break;
+    case PORT://--
+        break;
+    case SEMESTER:
+        break;
+    case EVENT_TYPE:
+        break;
+    case EVENT_ID:
+        break;
+    case HRS_PER_PERSON://--
+        break;
+    case TSHIRT_CALC:
+        break;
+    case TSHIRT_MULT:
+        break;
+    case SHIFT:
+        break;
+    case SUBMITTED_BY:
+        break;
+    default:;
+    }
+
+    updateFields();
 }

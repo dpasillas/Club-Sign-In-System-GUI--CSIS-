@@ -11,12 +11,16 @@ namespace Ui {
 class PasswordDialog;
 class QFileDialog;
 class QInputDialog;
+class QLabel;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    enum HeaderValues{EVENT_TYPE, EVENT_ID, DATE, EVENT_NAME,
+                     SHIFT_ID, SEMESTER_ID, SUBMITTED_BY_ID,
+                     MULTIPLIER_ON,MULTIPLIER, EXPORTED, HEADER_SIZE};
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -35,6 +39,12 @@ public:
     void updatePassword(QString password);
 
     void resetFields();
+    void updateValues(QString values);
+
+    QString getID(QString labelText, bool &ok);
+
+    void setValue(HeaderValues type, QString value);
+    void updateOptions();
 
 signals:
     void eventChanged(AGSEventType type, int id);
@@ -50,13 +60,12 @@ public slots:
     void lookupAGS_ID();
     void lookupPCC_ID();
     void lookupPCC_ID(QString s);
-    void setEventType(QString s);
-    void setEventID(int i);
     void setEventTypeID(QString s, int i);
     void setEvent(AGSEventType type, int i);
     void setLogoutTime();
     void setLogoutTime(int seconds);
     void setTShirtCalc(double multiplier, bool on);
+    void setTimer(int &id, int& var, int msecs = 0);
     void boo();
     void showError(QString s);
     void login();
@@ -64,6 +73,9 @@ public slots:
     void about();
     void tutorial();
     void reportABug();
+    void testConnection();
+    QString generateHeader();
+    void rewriteHeader();
 
 
 protected:
@@ -78,16 +90,18 @@ private:
     bool firstLogin, tShirtCalc;
     double mult;
     static const int DISPLAY_MILS = 2500;
-    int IDLE_TIME;
-    int stampTimer, readTimer, ot, messageTimer, loginTimer, lmTimer;
+    int IDLE_TIME, CONNECTION_REFRESH;
+    int stampTimer, readTimer, ot, messageTimer, loginTimer, lmTimer, connectionTimer;
+
     Ui::MainWindow *ui;
+
     QString buffer, fName, eName, curFile;
     OptionsDialog *dialog;
     PasswordDialog *pDialog;
     //QFileDialog *fDialog;
     QInputDialog *iDialog;
-    QStringList files;
 
+    QStringList files;
     QStringList agsEventTypes;
 
     enum { MaxRecentFiles = 10 };
@@ -95,6 +109,12 @@ private:
     QAction *separatorAct;
 
     QWidget *csWidget;
+    QLabel *label;
+
+    AGSEventType eType;
+    int eID;
+
+    QString criticalValues[HEADER_SIZE];
 };
 
 #endif // MAINWINDOW_H
