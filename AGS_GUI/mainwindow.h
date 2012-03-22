@@ -52,7 +52,9 @@ signals:
 public slots:
     void newFile();
     void openFile();
+    void closeFile();
     void exportFile();
+    void importToDatabase();
     void loadFile(QString s);
     void openRecentFile();
     void showOptions();

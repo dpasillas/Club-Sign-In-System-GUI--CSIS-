@@ -650,7 +650,10 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionClose_File"/>
+    <addaction name="separator"/>
     <addaction name="actionExport_log_to"/>
+    <addaction name="actionImport_to_Database"/>
     <addaction name="actionLogout"/>
     <addaction name="actionExit"/>
    </widget>
@@ -658,18 +661,7 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QMenu" name="menuChange_Event">
-     <property name="title">
-      <string>Change Event</string>
-     </property>
-     <addaction name="actionAGSD"/>
-     <addaction name="actionCS"/>
-     <addaction name="actionMeeting"/>
-     <addaction name="actionSocial"/>
-     <addaction name="actionOther"/>
-    </widget>
     <addaction name="actionOptions"/>
-    <addaction name="menuChange_Event"/>
     <addaction name="actionChange_Username_Password"/>
     <addaction name="actionSet_Logout_Timer"/>
    </widget>
@@ -764,6 +756,16 @@ p, li { white-space: pre-wrap; }
   <action name="actionSet_Logout_Timer">
    <property name="text">
     <string>Set Logout Timer...</string>
+   </property>
+  </action>
+  <action name="actionClose_File">
+   <property name="text">
+    <string>Close File</string>
+   </property>
+  </action>
+  <action name="actionImport_to_Database">
+   <property name="text">
+    <string>Import to Database...</string>
    </property>
   </action>
  </widget>

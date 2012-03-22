@@ -33,7 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     csWidget = new QWidget(this);
     csWidget->setWindowIcon(QIcon(":/images/cs_icon"));
     csWidget->setVisible(false);
-    ui->menuChange_Event->setVisible(false);
+    //ui->menuChange_Event->setVisible(false);
+    ui->actionClose_File->setVisible(false);
 
     agsEventTypes << "" << "AGS" << "CS" << "Meeting" << "Social" << "Other";
 
@@ -90,7 +91,9 @@ MainWindow::MainWindow(QWidget *parent) :
     /*/ Connections for menubar /*/
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
+    connect(ui->actionClose_File,SIGNAL(triggered()),this,SLOT(closeFile()));
     connect(ui->actionExport_log_to,SIGNAL(triggered()),this,SLOT(exportFile()));
+    connect(ui->actionImport_to_Database,SIGNAL(triggered()),this,SLOT(importToDatabase()));
     connect(ui->actionLogout,SIGNAL(triggered()),this,SLOT(logout()));
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(close()));
 
@@ -469,7 +472,7 @@ void MainWindow::openFile()
     fDialog->setOption(QFileDialog::DontUseNativeDialog,false);
     fDialog->setViewMode(QFileDialog::List);
     fDialog->setAcceptMode(QFileDialog::AcceptOpen);
-    QByteArray array = fDialog->saveState();
+    //QByteArray array = fDialog->saveState();
     //QFileDialog::getOpenFileName(this);
     if(fDialog->exec())
     {
@@ -477,7 +480,14 @@ void MainWindow::openFile()
         loadFile(name);
         updateEventFromFile(name);
     }
-    fDialog->restoreState(array);
+    //fDialog->restoreState(array);
+}
+
+void MainWindow::closeFile()
+{
+    firstLogin = true;
+    ui->stackedWidget->setCurrentIndex(2);
+    ui->actionClose_File->setVisible(false);
 }
 
 void MainWindow::openRecentFile()
@@ -505,6 +515,7 @@ void MainWindow::loadFile(QString s)
         showMain();
         setCurrentFile(s);
         updateOptions();
+        ui->actionClose_File->setVisible(true);
     }
 
 }
@@ -547,7 +558,7 @@ void MainWindow::showMain()
 
 void MainWindow::updateEventFromFile(QString fileName)
 {
-    QFile file(fileName);
+    /*QFile file(fileName);
     if(file.open(QFile::ReadOnly))
     {
         QTextStream in(&file);
@@ -557,7 +568,10 @@ void MainWindow::updateEventFromFile(QString fileName)
         //qDebug() << pos << " " << line.length();
         setEventTypeID(line.left(pos), line.mid(pos+1,pos2 - pos - 1).toInt());
                        //line.right(line.length() - pos).toInt());
-    }
+    }*/
+    QString text = criticalValues[EVENT_TYPE];
+
+    ui->event_label->setText(text.append(" ").append(criticalValues[EVENT_ID]));
 }
 
 QString MainWindow::genFileName()
@@ -675,6 +689,7 @@ void MainWindow::setLogoutTime(int seconds)
         killTimer(loginTimer);
     if(seconds)
         loginTimer = startTimer(seconds * 1000);
+    IDLE_TIME = seconds * 1000;
 }
 
 void MainWindow::setTShirtCalc(double multiplier, bool on)
@@ -855,4 +870,29 @@ void MainWindow::updateOptions()
     dialog->setValue(OptionsDialog::SUBMITTED_BY,criticalValues[SUBMITTED_BY_ID]);
     dialog->setValue(OptionsDialog::TSHIRT_MULT,criticalValues[MULTIPLIER]);
     dialog->setValue(OptionsDialog::TSHIRT_CALC,criticalValues[MULTIPLIER_ON]);
+}
+
+void MainWindow::importToDatabase()
+{
+    QFileDialog d(this), *fDialog = &d;
+    fDialog->setWindowTitle("Choose a file to be exported");
+    fDialog->setFileMode(QFileDialog::ExistingFile);
+    fDialog->setNameFilter("Log Files (*.dat)");
+    //fDialog->setOption(QFileDialog::DontUseNativeDialog,false);
+    fDialog->setViewMode(QFileDialog::List);
+    fDialog->setAcceptMode(QFileDialog::AcceptOpen);
+    if(fDialog->exec())
+    {
+        QString fileName = fDialog->selectedFiles().at(0);
+        if(fileName == curFile && QMessageBox::Ok ==
+                QMessageBox::warning(this,"Open File Warning",
+                                     "In order to continue, you must close this session.\n"
+                                     "Proceed?",
+                                     QMessageBox::Ok | QMessageBox::Cancel))
+        {
+            closeFile();
+        }
+
+        //do what you need with the file here[!]
+    }
 }

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Mar 21 17:45:20 2012
+** Created: Thu Mar 22 00:28:34 2012
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -53,6 +53,8 @@ public:
     QAction *actionChange_Username_Password;
     QAction *actionLogout;
     QAction *actionSet_Logout_Timer;
+    QAction *actionClose_File;
+    QAction *actionImport_to_Database;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QStackedWidget *stackedWidget;
@@ -114,7 +116,6 @@ public:
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuTools;
-    QMenu *menuChange_Event;
     QMenu *menuHelp;
     QStatusBar *statusBar;
 
@@ -185,6 +186,10 @@ public:
         actionLogout->setObjectName(QString::fromUtf8("actionLogout"));
         actionSet_Logout_Timer = new QAction(MainWindow);
         actionSet_Logout_Timer->setObjectName(QString::fromUtf8("actionSet_Logout_Timer"));
+        actionClose_File = new QAction(MainWindow);
+        actionClose_File->setObjectName(QString::fromUtf8("actionClose_File"));
+        actionImport_to_Database = new QAction(MainWindow);
+        actionImport_to_Database->setObjectName(QString::fromUtf8("actionImport_to_Database"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         centralWidget->setStyleSheet(QString::fromUtf8(""));
@@ -480,8 +485,6 @@ public:
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuTools = new QMenu(menuBar);
         menuTools->setObjectName(QString::fromUtf8("menuTools"));
-        menuChange_Event = new QMenu(menuTools);
-        menuChange_Event->setObjectName(QString::fromUtf8("menuChange_Event"));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         MainWindow->setMenuBar(menuBar);
@@ -494,18 +497,15 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionNew);
         menuFile->addAction(actionOpen);
+        menuFile->addAction(actionClose_File);
+        menuFile->addSeparator();
         menuFile->addAction(actionExport_log_to);
+        menuFile->addAction(actionImport_to_Database);
         menuFile->addAction(actionLogout);
         menuFile->addAction(actionExit);
         menuTools->addAction(actionOptions);
-        menuTools->addAction(menuChange_Event->menuAction());
         menuTools->addAction(actionChange_Username_Password);
         menuTools->addAction(actionSet_Logout_Timer);
-        menuChange_Event->addAction(actionAGSD);
-        menuChange_Event->addAction(actionCS);
-        menuChange_Event->addAction(actionMeeting);
-        menuChange_Event->addAction(actionSocial);
-        menuChange_Event->addAction(actionOther);
         menuHelp->addAction(actionAbout);
         menuHelp->addAction(actionView_Tutorial);
         menuHelp->addAction(actionReport_a_problem);
@@ -537,6 +537,8 @@ public:
         actionChange_Username_Password->setText(QApplication::translate("MainWindow", "Change Username/Password...", 0, QApplication::UnicodeUTF8));
         actionLogout->setText(QApplication::translate("MainWindow", "Logout", 0, QApplication::UnicodeUTF8));
         actionSet_Logout_Timer->setText(QApplication::translate("MainWindow", "Set Logout Timer...", 0, QApplication::UnicodeUTF8));
+        actionClose_File->setText(QApplication::translate("MainWindow", "Close File", 0, QApplication::UnicodeUTF8));
+        actionImport_to_Database->setText(QApplication::translate("MainWindow", "Import to Database...", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("MainWindow", "Username:", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("MainWindow", "Password:", 0, QApplication::UnicodeUTF8));
         login_button->setText(QApplication::translate("MainWindow", "Login", 0, QApplication::UnicodeUTF8));
@@ -559,7 +561,6 @@ public:
         label_9->setText(QApplication::translate("MainWindow", "Open or create a new event", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         menuTools->setTitle(QApplication::translate("MainWindow", "Tools", 0, QApplication::UnicodeUTF8));
-        menuChange_Event->setTitle(QApplication::translate("MainWindow", "Change Event", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
